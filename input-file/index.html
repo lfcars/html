@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <h1>HTMLCollection vs NodeList</h1>
+  <p id="p1">This is paragraph 1</p>
+  <p id="p2">This is paragraph 2</p>
+  <p id="p3">This is paragraph 3</p>
+
+  <script>
+    const p1 = document.getElementById('p1');
+    const pListWithGetElementByTagName = document.getElementsByTagName('p');
+    const pListWithQuerySelectorAll = document.querySelectorAll('p');
+
+    // changed paragraph 1 through p1
+    p1.innerText="Paragraph 1 was changed";
+
+    // changed paragraph 2 through pListWithGetElementByTagName
+    pListWithGetElementByTagName[1].innerText="Paragraph 2 was changed";
+
+    // changed paragraph 3 through pListWithQuerySelectorAll
+    pListWithQuerySelectorAll[2].innerText="Paragraph 3 was changed";
+
+    console.log('HTMLCollection:',pListWithGetElementByTagName);
+    console.log('NodeList:',pListWithQuerySelectorAll);
+
+    // HTMLCollection and NodeList point to the same nodes
+    console.log(pListWithGetElementByTagName[0] === pListWithQuerySelectorAll[0]);
+    console.log(pListWithGetElementByTagName[1] === pListWithQuerySelectorAll[1]);
+    console.log(pListWithGetElementByTagName[2] === pListWithQuerySelectorAll[2]);
+
+    // create and insert new paragraph
+    const p4 = document.createElement('p')
+    const p4Text = document.createTextNode('Paragraph 4');
+    p4.setAttribute('id','p4')
+    p4.appendChild(p4Text);
+    document.querySelector('#p3').insertAdjacentElement('afterend',p4);
+
+    // HTMLCollection is a live representation of the DOM, so it will have the new paragraph
+    console.log("List of paragraphs after insertion of p4, using getElementsByTagName (Live = 4 elements)",pListWithGetElementByTagName);
+    // NodeList is NOT a live representation of the DOM, so it will NOT have the new paragraph
+    console.log("List of paragraphs after insertion of p4, using pListWithQuerySelectorAll  (NOT live = 3 elements)",pListWithQuerySelectorAll);
+  </script>
+</body>
+</html>
